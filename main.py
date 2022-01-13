@@ -1,4 +1,4 @@
-import random
+import random, time
 
 algorithmList = ["1: Human", "2: Smart", "3: Bruno"]
 
@@ -84,6 +84,7 @@ while True:
                 break
 
             case 2:  #Smart
+                t1 = time.perf_counter()
                 # Generate all possible guesses
                 possibleGuesses = list(range(10**(SClen-1), 10**SClen))
                 for i in range(0, len(possibleGuesses)):
@@ -100,7 +101,7 @@ while True:
 
                     possibleGuesses.remove(guess)  #Remove what is guessed from possible guesses
 
-                    removeGuesses = []
+                    goodGuesses = []
 
                     for possibleGuess in possibleGuesses:  #Loop through all possible guesses
                         possibleGuessArray = list(str(possibleGuess))
@@ -121,14 +122,13 @@ while True:
                                 guessArray[guessArray.index(possibleGuessArray[i])] = "0"
                                 possibleGuessArray[i] = "0"
 
-                        if correct != results[0]:
-                            removeGuesses.append(possibleGuess)
+                        if correct == results[0] and contains == results[1]:
+                            goodGuesses.append(possibleGuess)
 
-                        elif contains != results[1]:
-                            removeGuesses.append(possibleGuess)
-                            pass
-                    for removeGuess in removeGuesses:
-                        possibleGuesses.remove(removeGuess)
+                    possibleGuesses = goodGuesses[:]
+
+                t2 = time.perf_counter()
+                print(t2 - t1)
 
                 print("That's correct! It took", guessCount, "guesses.")
                 break
